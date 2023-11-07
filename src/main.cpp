@@ -11,6 +11,9 @@ pico - gps module
 GP0(Tx) - Rx
 GP1(Rx) - Tx
 
+pico - HALL sensor
+GP28 (ADC2) - VOUT
+
 */
 #define ID "5678"
 #define ID_LEN 4
