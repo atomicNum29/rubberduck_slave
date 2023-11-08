@@ -14,6 +14,9 @@ GP1(Rx) - Tx
 pico - HALL sensor
 GP28 (ADC2) - VOUT
 
+
+패킷 프로토콜
+슬레이브아이디:자신이보낸패킷의수:장치트리거링여부:GPGLL정보
 */
 #define ID "5678"
 #define ID_LEN 4
@@ -144,7 +147,7 @@ bool sendGPSpacket(byte *packet, int len)
 
   cnt++;
   // packet[len] = '\0';
-  len = sprintf((char *)buf, "%04u::%s", cnt, (char *)packet);
+  len = sprintf((char *)buf, "%s:%u:%s", ID, cnt, (char *)packet);
   Serial.write(buf, len);
   Serial.println();
   bool rtn = lora.sendPacket(buf, len);
