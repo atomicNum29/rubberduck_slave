@@ -5,7 +5,7 @@ GP17 - CSn
 GP18 - SCK
 GP19 - MOSI (SI)
 GP20 - GDO0
-GP21 - GDO2
+GP21 - GDO2 (unused)
 
 pico - gps module
 GP0(Tx) - Rx
