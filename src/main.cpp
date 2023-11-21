@@ -14,6 +14,8 @@ GP1(Rx) - Tx
 pico - HALL sensor
 GP28 (ADC2) - VOUT
 
+GP13 - GLED
+GP14 - RLED
 
 패킷 프로토콜
 슬레이브아이디:자신이보낸패킷의수:장치트리거링여부:GPGLL정보
@@ -38,8 +40,8 @@ int readTrig();
 
 // green LED는 LoRa 송신이 일어날 때 점멸
 // blue LED는 트리거링이 감지되면 점등
-#define LED_G 14
-#define LED_B 15
+#define LED_R 14
+#define LED_G 13
 int b_state = 0;
 void blink_led();
 
@@ -47,7 +49,7 @@ void setup()
 {
   pinMode(LED_BUILTIN, OUTPUT);
   pinMode(LED_G, OUTPUT);
-  pinMode(LED_B, OUTPUT);
+  pinMode(LED_R, OUTPUT);
   pinMode(GDO0, INPUT);
   pinMode(TRIG, INPUT);
 
@@ -60,12 +62,11 @@ void setup()
 
   gps.begin(9600);
 
-  digitalWrite(LED_B, LOW);
+  digitalWrite(LED_R, LOW);
 }
 
 void loop()
 {
-  // digitalWrite(LED_B, HIGH);
   static byte _data[64] = {0};
   static int _data_len = 0;
   byte data[64];
@@ -75,12 +76,12 @@ void loop()
   if (readTrig())
   {
     was_triggered = 1;
-    digitalWrite(LED_B, HIGH);
+    digitalWrite(LED_R, HIGH);
   }
   else
   {
     was_triggered = 0;
-    digitalWrite(LED_B, LOW);
+    digitalWrite(LED_R, LOW);
   }
 
   if (len)
@@ -159,5 +160,6 @@ bool sendGPSpacket(byte *packet, int len)
 int readTrig()
 {
   int tmp = analogRead(TRIG);
+  // Serial.println(tmp);
   return (tmp < 400 ? 1 : 0);
 }
